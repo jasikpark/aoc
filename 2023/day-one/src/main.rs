@@ -1,3 +1,5 @@
+use std::usize;
+
 fn main() {
     println!("Hello, world!");
 }
@@ -19,7 +21,7 @@ fn find_alpha_nums(input: &str) -> ((usize, &str), (usize, &str)) {
 
     let x = nums.iter().flat_map(|num| input.match_indices(num));
 
-    let first = x.clone().fold((0, ""), |best_index, curr_index| {
+    let first = x.clone().fold((usize::MAX, ""), |best_index, curr_index| {
         if curr_index.0 < best_index.0 {
             curr_index
         } else {
@@ -27,7 +29,7 @@ fn find_alpha_nums(input: &str) -> ((usize, &str), (usize, &str)) {
         }
     });
 
-    let last = x.fold((0, ""), |best_index, curr_index| {
+    let last = x.fold((usize::MIN, ""), |best_index, curr_index| {
         if curr_index.0 > best_index.0 {
             curr_index
         } else {
@@ -135,7 +137,7 @@ mod tests {
         (
             (
                 0,
-                "",
+                "one",
             ),
             (
                 6,
