@@ -126,7 +126,7 @@ mod tests {
     fn test_example_part_two() {
         use crate::part_two;
         let input = include_str!("./input.txt");
-        assert_eq!(part_two(input), 54600030);
+        assert_eq!(part_two(input), 54770);
     }
 
     #[test]
