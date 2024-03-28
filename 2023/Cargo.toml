@@ -1,0 +1,3 @@
+[workspace]
+members = ["day-one",]
+resolver = "2"
