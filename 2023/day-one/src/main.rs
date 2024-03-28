@@ -60,28 +60,30 @@ pub fn part_two(input: &str) -> usize {
         let last_index_numeric = line.rfind(char::is_numeric);
 
         let (first_alphanum, last_alphanum) = find_alpha_nums(line);
-        let first: String =
-            if first_alphanum.1.is_empty() || first_index_numeric.unwrap() < first_alphanum.0 {
-                let first_numeric: String = line
-                    .chars()
-                    .skip(first_index_numeric.unwrap())
-                    .take(1)
-                    .collect();
-                first_numeric
-            } else {
-                String::from(numstring_tostring(first_alphanum.1))
-            };
-        let last: String =
-            if last_alphanum.1.is_empty() || last_index_numeric.unwrap() > last_alphanum.0 {
-                let last_numeric: String = line
-                    .chars()
-                    .skip(last_index_numeric.unwrap())
-                    .take(1)
-                    .collect();
-                last_numeric
-            } else {
-                String::from(numstring_tostring(last_alphanum.1))
-            };
+        let first: String = if first_alphanum.1.is_empty()
+            || first_index_numeric.is_some() && first_index_numeric.unwrap() < first_alphanum.0
+        {
+            let first_numeric: String = line
+                .chars()
+                .skip(first_index_numeric.unwrap())
+                .take(1)
+                .collect();
+            first_numeric
+        } else {
+            String::from(numstring_tostring(first_alphanum.1))
+        };
+        let last: String = if last_alphanum.1.is_empty()
+            || last_index_numeric.is_some() && last_index_numeric.unwrap() > last_alphanum.0
+        {
+            let last_numeric: String = line
+                .chars()
+                .skip(last_index_numeric.unwrap())
+                .take(1)
+                .collect();
+            last_numeric
+        } else {
+            String::from(numstring_tostring(last_alphanum.1))
+        };
         acc + (first + &last).parse::<usize>().unwrap()
     })
 }
@@ -123,5 +125,23 @@ mod tests {
         use crate::part_two;
         let input = include_str!("./input.txt");
         assert_eq!(part_two(input), 54600030);
+    }
+
+    #[test]
+    fn test_find_alpha_nums() {
+        use crate::find_alpha_nums;
+        let input = "onetwothree";
+        insta::assert_debug_snapshot!(find_alpha_nums(input), @r###"
+        (
+            (
+                0,
+                "",
+            ),
+            (
+                6,
+                "three",
+            ),
+        )
+        "###);
     }
 }
