@@ -1,3 +1,5 @@
+use std::collections::HashMap;
+
 use nom::{
     bytes::complete::tag,
     character::complete::{alpha1, digit1},
@@ -11,22 +13,32 @@ fn main() {
     dbg!(Game::parse("Game 1: 3 blue, 4 red;").unwrap());
 }
 
+/// In part one, we need to filter out the games that have hands which are impossible,
+/// i.e. they have more of a single color than are actually in the bag.
+///
+/// Then we need to sum the game_num of each game to get our output.
 pub fn part_one(input: &str) -> usize {
-    let games = input
-        .lines()
-        .map(|line| {
-            let (input, game) = Game::parse(line.trim()).unwrap();
-            assert!(input.is_empty());
-            game
+    let bag =
+        HashMap::<Color, usize>::from([(Color::Red, 12), (Color::Blue, 14), (Color::Green, 14)]);
+    let games = input.lines().map(|line| {
+        let (input, game) = Game::parse(line.trim()).unwrap();
+        assert!(input.is_empty());
+        game
+    });
+
+    let valid_games = games.filter(|game| {
+        game.hands.iter().all(|hand| {
+            hand.color_counts.iter().all(|color_count| {
+                let bag_count_for_color = bag.get(&color_count.color).unwrap();
+                bag_count_for_color >= &color_count.count
+            })
         })
-        .collect::<Vec<_>>();
+    });
 
-    dbg!(games);
-
-    todo!();
+    valid_games.map(|game| game.game_num).sum()
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Eq, Hash)]
 enum Color {
     Red,
     Blue,
