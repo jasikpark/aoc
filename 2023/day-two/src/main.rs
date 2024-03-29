@@ -17,9 +17,7 @@ fn main() {
 /// i.e. they have more of a single color than are actually in the bag.
 ///
 /// Then we need to sum the game_num of each game to get our output.
-pub fn part_one(input: &str) -> usize {
-    let bag =
-        HashMap::<Color, usize>::from([(Color::Red, 12), (Color::Blue, 14), (Color::Green, 14)]);
+pub fn part_one(bag: HashMap<Color, usize>, input: &str) -> usize {
     let games = input.lines().map(|line| {
         let (input, game) = Game::parse(line.trim()).unwrap();
         assert!(input.is_empty());
@@ -35,11 +33,16 @@ pub fn part_one(input: &str) -> usize {
         })
     });
 
-    valid_games.map(|game| game.game_num).sum()
+    valid_games
+        .inspect(|game| {
+            dbg!(game);
+        })
+        .map(|game| game.game_num)
+        .sum()
 }
 
 #[derive(Debug, PartialEq, Eq, Hash)]
-enum Color {
+pub enum Color {
     Red,
     Blue,
     Green,
@@ -107,19 +110,33 @@ mod test {
     #[test]
     fn initial_example_part_one() {
         use crate::part_one;
+        use crate::Color;
+        use std::collections::HashMap;
+        let bag = HashMap::<Color, usize>::from([
+            (Color::Red, 12),
+            (Color::Green, 14),
+            (Color::Blue, 14),
+        ]);
         let input = r#"Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green
         Game 2: 1 blue, 2 green; 3 green, 4 blue, 1 red; 1 green, 1 blue
         Game 3: 8 green, 6 blue, 20 red; 5 blue, 4 red, 13 green; 5 green, 1 red
         Game 4: 1 green, 3 red, 6 blue; 3 green, 6 red; 3 green, 15 blue, 14 red
         Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green"#;
-        assert_eq!(part_one(input), 8);
+        assert_eq!(part_one(bag, input), 8);
     }
 
     #[test]
     fn test_example_part_one() {
         use crate::part_one;
+        use crate::Color;
+        use std::collections::HashMap;
+        let bag = HashMap::<Color, usize>::from([
+            (Color::Red, 12),
+            (Color::Green, 13),
+            (Color::Blue, 14),
+        ]);
         let input = include_str!("./input.txt");
-        assert_eq!(part_one(input), 8);
+        assert_eq!(part_one(bag, input), 8);
     }
 
     #[test]
