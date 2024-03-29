@@ -33,12 +33,7 @@ pub fn part_one(bag: HashMap<Color, usize>, input: &str) -> usize {
         })
     });
 
-    valid_games
-        .inspect(|game| {
-            dbg!(game);
-        })
-        .map(|game| game.game_num)
-        .sum()
+    valid_games.map(|game| game.game_num).sum()
 }
 
 #[derive(Debug, PartialEq, Eq, Hash)]
@@ -136,7 +131,7 @@ mod test {
             (Color::Blue, 14),
         ]);
         let input = include_str!("./input.txt");
-        assert_eq!(part_one(bag, input), 8);
+        assert_eq!(part_one(bag, input), 2239);
     }
 
     #[test]

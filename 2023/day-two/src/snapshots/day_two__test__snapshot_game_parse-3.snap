@@ -1,60 +1,58 @@
 ---
 source: day-two/src/main.rs
-expression: "separated_list1(tag(\"\\n\"), Game::parse)(input_3)"
+expression: "Game::parse(input_3)"
 ---
 Ok(
     (
         "",
-        [
-            Game {
-                game_num: 3,
-                hands: [
-                    Hand {
-                        color_counts: [
-                            ColorCount {
-                                count: 8,
-                                color: Green,
-                            },
-                            ColorCount {
-                                count: 6,
-                                color: Blue,
-                            },
-                            ColorCount {
-                                count: 20,
-                                color: Red,
-                            },
-                        ],
-                    },
-                    Hand {
-                        color_counts: [
-                            ColorCount {
-                                count: 5,
-                                color: Blue,
-                            },
-                            ColorCount {
-                                count: 4,
-                                color: Red,
-                            },
-                            ColorCount {
-                                count: 13,
-                                color: Green,
-                            },
-                        ],
-                    },
-                    Hand {
-                        color_counts: [
-                            ColorCount {
-                                count: 5,
-                                color: Green,
-                            },
-                            ColorCount {
-                                count: 1,
-                                color: Red,
-                            },
-                        ],
-                    },
-                ],
-            },
-        ],
+        Game {
+            game_num: 3,
+            hands: [
+                Hand {
+                    color_counts: [
+                        ColorCount {
+                            count: 8,
+                            color: Green,
+                        },
+                        ColorCount {
+                            count: 6,
+                            color: Blue,
+                        },
+                        ColorCount {
+                            count: 20,
+                            color: Red,
+                        },
+                    ],
+                },
+                Hand {
+                    color_counts: [
+                        ColorCount {
+                            count: 5,
+                            color: Blue,
+                        },
+                        ColorCount {
+                            count: 4,
+                            color: Red,
+                        },
+                        ColorCount {
+                            count: 13,
+                            color: Green,
+                        },
+                    ],
+                },
+                Hand {
+                    color_counts: [
+                        ColorCount {
+                            count: 5,
+                            color: Green,
+                        },
+                        ColorCount {
+                            count: 1,
+                            color: Red,
+                        },
+                    ],
+                },
+            ],
+        },
     ),
 )
