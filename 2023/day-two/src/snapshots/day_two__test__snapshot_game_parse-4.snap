@@ -1,0 +1,60 @@
+---
+source: day-two/src/main.rs
+expression: "separated_list1(tag(\"\\n\"), Game::parse)(input_4)"
+---
+Ok(
+    (
+        "",
+        [
+            Game {
+                game_num: 4,
+                hands: [
+                    Hand {
+                        color_counts: [
+                            ColorCount {
+                                count: 1,
+                                color: Green,
+                            },
+                            ColorCount {
+                                count: 3,
+                                color: Red,
+                            },
+                            ColorCount {
+                                count: 6,
+                                color: Blue,
+                            },
+                        ],
+                    },
+                    Hand {
+                        color_counts: [
+                            ColorCount {
+                                count: 3,
+                                color: Green,
+                            },
+                            ColorCount {
+                                count: 6,
+                                color: Red,
+                            },
+                        ],
+                    },
+                    Hand {
+                        color_counts: [
+                            ColorCount {
+                                count: 3,
+                                color: Green,
+                            },
+                            ColorCount {
+                                count: 15,
+                                color: Blue,
+                            },
+                            ColorCount {
+                                count: 14,
+                                color: Red,
+                            },
+                        ],
+                    },
+                ],
+            },
+        ],
+    ),
+)

@@ -11,8 +11,19 @@ fn main() {
     dbg!(Game::parse("Game 1: 3 blue, 4 red;").unwrap());
 }
 
-fn part_one(input: &str) -> usize {
-    todo!()
+pub fn part_one(input: &str) -> usize {
+    let games = input
+        .lines()
+        .map(|line| {
+            let (input, game) = Game::parse(line.trim()).unwrap();
+            assert!(input.is_empty());
+            game
+        })
+        .collect::<Vec<_>>();
+
+    dbg!(games);
+
+    todo!();
 }
 
 #[derive(Debug, PartialEq)]
@@ -80,6 +91,7 @@ impl Game {
 }
 
 mod test {
+
     #[test]
     fn initial_example_part_one() {
         use crate::part_one;
@@ -96,5 +108,22 @@ mod test {
         use crate::part_one;
         let input = include_str!("./input.txt");
         assert_eq!(part_one(input), 8);
+    }
+
+    #[test]
+    fn snapshot_game_parse() {
+        use crate::Game;
+
+        let input_1 = "Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green";
+        let input_2 = "Game 2: 1 blue, 2 green; 3 green, 4 blue, 1 red; 1 green, 1 blue";
+        let input_3 = "Game 3: 8 green, 6 blue, 20 red; 5 blue, 4 red, 13 green; 5 green, 1 red";
+        let input_4 = "Game 4: 1 green, 3 red, 6 blue; 3 green, 6 red; 3 green, 15 blue, 14 red";
+        let input_5 = "Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green";
+
+        insta::assert_debug_snapshot!(Game::parse(input_1));
+        insta::assert_debug_snapshot!(Game::parse(input_2));
+        insta::assert_debug_snapshot!(Game::parse(input_3));
+        insta::assert_debug_snapshot!(Game::parse(input_4));
+        insta::assert_debug_snapshot!(Game::parse(input_5));
     }
 }
