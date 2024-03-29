@@ -1,0 +1,46 @@
+---
+source: day-two/src/bin/part_two.rs
+expression: "Game::parse(input_5)"
+---
+Ok(
+    (
+        "",
+        Game {
+            game_num: 5,
+            hands: [
+                Hand {
+                    color_counts: [
+                        ColorCount {
+                            count: 6,
+                            color: Red,
+                        },
+                        ColorCount {
+                            count: 1,
+                            color: Blue,
+                        },
+                        ColorCount {
+                            count: 3,
+                            color: Green,
+                        },
+                    ],
+                },
+                Hand {
+                    color_counts: [
+                        ColorCount {
+                            count: 2,
+                            color: Blue,
+                        },
+                        ColorCount {
+                            count: 1,
+                            color: Red,
+                        },
+                        ColorCount {
+                            count: 2,
+                            color: Green,
+                        },
+                    ],
+                },
+            ],
+        },
+    ),
+)
