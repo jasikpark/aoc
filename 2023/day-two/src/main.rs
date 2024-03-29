@@ -2,12 +2,13 @@ use nom::{
     bytes::complete::tag,
     character::complete::{alpha1, digit1},
     combinator::{map, map_res},
+    multi::separated_list1,
     sequence::separated_pair,
     IResult,
 };
 
 fn main() {
-    parse_line("Game 1: 3 blue, 4 red;").unwrap();
+    dbg!(Game::parse("Game 1: 3 blue, 4 red;").unwrap());
 }
 
 fn part_one(input: &str) -> usize {
@@ -15,13 +16,48 @@ fn part_one(input: &str) -> usize {
 }
 
 #[derive(Debug, PartialEq)]
-struct Hand {
-    pub red: u8,
-    pub green: u8,
-    pub blue: u8,
+enum Color {
+    Red,
+    Blue,
+    Green,
 }
 
+#[derive(Debug, PartialEq)]
+struct ColorCount {
+    pub count: usize,
+    pub color: Color,
+}
+
+#[derive(Debug, PartialEq)]
+struct Hand {
+    pub color_counts: Vec<ColorCount>,
+}
+
+impl Hand {
+    fn parse(input: &str) -> IResult<&str, Self> {
+        let color_count_parser = map(Self::color_count_parser, |(count, color)| ColorCount {
+            count,
+            color: match color {
+                "red" => Color::Red,
+                "blue" => Color::Blue,
+                "green" => Color::Green,
+                _ => panic!("pls don't have other colors"),
+            },
+        });
+
+        let (input, color_counts) = separated_list1(tag(", "), color_count_parser)(input)?;
+
+        Ok((input, Self { color_counts }))
+    }
+
+    fn color_count_parser(input: &str) -> IResult<&str, (usize, &str)> {
+        separated_pair(digit_parser, tag(" "), alpha1)(input)
+    }
+}
+
+#[derive(Debug, PartialEq)]
 struct Game {
+    pub game_num: usize,
     pub hands: Vec<Hand>,
 }
 
@@ -29,24 +65,17 @@ fn digit_parser(input: &str) -> IResult<&str, usize> {
     map_res(digit1, str::parse)(input)
 }
 
-fn color_count_parser(input: &str) -> IResult<&str, (usize, &str)> {
-    separated_pair(digit_parser, tag(" "), alpha1)(input)
-}
-
 impl Game {
-    fn parse_line(input: &str) -> IResult<&str, Hand> {
+    fn parse(input: &str) -> IResult<&str, Self> {
         let (input, _) = tag("Game ")(input)?;
-        let (input, round_number) = digit_parser(input)?;
+        let (input, game_num) = digit_parser(input)?;
         let (input, _) = tag(": ")(input)?;
 
-        let mut hand_parser = map(color_count_parser, |(count, color)| Self {
-            first_name: String::from(first_name),
-            last_name: String::from(last_name),
-        });
+        let mut game_parser = separated_list1(tag("; "), Hand::parse);
 
-        dbg!(round_number, input);
+        let (input, hands) = game_parser(input)?;
 
-        todo!()
+        Ok((input, Self { game_num, hands }))
     }
 }
 
