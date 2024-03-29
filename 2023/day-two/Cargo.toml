@@ -1,5 +1,5 @@
 [package]
-name = "day-one"  # https://adventofcode.com/2023/day/1
+name = "day-two"  # https://adventofcode.com/2023/day/2
 version = "0.1.0"
 edition = "2021"
 
@@ -7,3 +7,4 @@ edition = "2021"
 
 [dependencies]
 insta = "1.37.0"
+nom = "7.1.3"

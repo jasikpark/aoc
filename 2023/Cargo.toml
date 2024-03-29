@@ -1,5 +1,5 @@
 [workspace]
-members = ["day-one"]
+members = ["day-one", "day-two"]
 resolver = "2"
 
 [profile.dev.package]
